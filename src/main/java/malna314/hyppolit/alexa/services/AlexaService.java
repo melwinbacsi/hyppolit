@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 public final class AlexaService {
 	protected static final String SESSION_CONVERSATION_FLAG = "conversation";
 	
-	public static final String SamplesHelpText = "Here are some things you can say: Tell me something about a random year.  Or, what happened in nineteen eighty-nine?";
+	public static final String SamplesHelpText = "Welcome home!";
 	public static final String RepromptText = "What else can I tell you?  Say \"Help\" for some suggestions.";
 
 	public Card newCard( String cardTitle, String cardText ) {

@@ -9,22 +9,33 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class RelayService {
-    final GpioPinDigitalOutput pin;
+    final GpioPinDigitalOutput pin1;
+    final GpioPinDigitalOutput pin2;
 
     public RelayService(){
         final GpioController gpio = GpioFactory.getInstance();
-        pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01, "Lamp1", PinState.LOW);
+        pin1 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01, "Lamp1", PinState.LOW);
+        pin1.setShutdownOptions(true, PinState.LOW);
 
-        pin.setShutdownOptions(true, PinState.LOW);
-
+        pin2 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_00, "Cam", PinState.LOW);
+        pin2.setShutdownOptions(true, PinState.LOW);
     }
 
-    public void toggleRelay(String status) {
-        if(status.equals("on")){
+    public void toggleRelay(String status, String pinValue) {
+        GpioPinDigitalOutput pin = null;
+        switch (pinValue) {
+        case "light":
+            pin = pin1;
+            break;
+        case "cam":
+            pin = pin2;
+            break;
+        }
+        if(pin != null && status.equals("on")){
         pin.high();}
-        if(status.equals("on")){
+        if(pin != null && status.equals("on")){
         pin.low();}
-        if(status.equals("toggle")){
+        if(pin != null && status.equals("toggle")){
         pin.toggle();}
     }
 }
